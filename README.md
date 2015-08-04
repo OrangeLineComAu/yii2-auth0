@@ -43,5 +43,15 @@ Update the `components` section in the config with:
         'loginUrl' => ['auth0/user/login'],  
     ],
 
+Change the `firebase/php-jwt` version to `v2.2.0`:
+
+    cd @vendor/firebase/php-jwt
+    git checkout v2.2.0
+
+Update the `@vendor/composer/autoload_classmap.php` with:
+
+    'BeforeValidException' => $vendorDir . '/firebase/php-jwt/Exceptions/BeforeValidException.php',
+    'JWT' => $vendorDir . '/firebase/php-jwt/Authentication/JWT.php',
+
 Usage
 -----

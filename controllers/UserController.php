@@ -33,4 +33,14 @@ class UserController extends \yii\web\Controller
             'module' => $this->module,
         ]);
     }
+
+    /**
+     * Logout a user with auth0
+     * @return mixed
+     */
+    public function actionLogout()
+    {
+        $this->module->auth0->logout();
+        return $this->goHome();
+    }
 }
