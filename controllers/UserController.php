@@ -23,10 +23,10 @@ class UserController extends \yii\web\Controller
     public function actionLogin()
     {
         $auth0 = $this->module->auth0;
-        $userInfo = $auth0->getUser();
 
-        if ($userInfo) {
-            return 'Login successful';
+        if ($auth0->getUser()) {
+            $auth0->loginUser();
+            return Yii::$app->user->identity->username;
         }
 
         return $this->render('login', [
@@ -41,6 +41,7 @@ class UserController extends \yii\web\Controller
     public function actionLogout()
     {
         $this->module->auth0->logout();
+        Yii::$app->user->logout();
         return $this->goHome();
     }
 }
