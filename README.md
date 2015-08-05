@@ -40,7 +40,8 @@ Login to auth0 and update the `Allowed Callback Urls` in your setting page.
 Update the `components` section in the config with:
 
     'user' => [
-        'loginUrl' => ['auth0/user/login'],  
+        'identityClass' => 'anli\auth0\models\User',
+        'loginUrl' => ['auth0/user/login'],
     ],
 
 If you encounter the following error

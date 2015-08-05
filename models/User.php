@@ -185,4 +185,26 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * Finds user by auth0 authenticated user
+     *
+     * @return mixed
+     */
+    public static function findByAuth0()
+    {
+        return self::find()
+        ->joinWith('auth')
+        ->andWhere(['source_id' => Yii::$app->getModule('auth0')->auth0->getUser()['user_id']])
+        ->andWhere(['source' => 'auth0'])
+        ->one();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuth()
+    {
+        return $this->hasOne(Auth::className(), ['user_id' => 'id']);
+    }
 }

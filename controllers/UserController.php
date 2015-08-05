@@ -7,6 +7,7 @@
 
 namespace anli\auth0\controllers;
 
+use anli\auth0\models\LoginForm;
 use Yii;
 
 /**
@@ -22,15 +23,18 @@ class UserController extends \yii\web\Controller
      */
     public function actionLogin()
     {
+        $model = new LoginForm;
+
         $auth0 = $this->module->auth0;
 
         if ($auth0->getUser()) {
-            $auth0->loginUser();
-            return Yii::$app->user->identity->username;
+
+            $model->login();
+            return $this->goHome();
         }
 
         return $this->render('login', [
-            'module' => $this->module,
+            'model' => $model,
         ]);
     }
 

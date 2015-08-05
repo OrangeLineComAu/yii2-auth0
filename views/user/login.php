@@ -13,14 +13,14 @@ echo "
 <script src='https://cdn.auth0.com/js/lock-7.5.min.js'></script>
 <script>
 
-  var lock = new Auth0Lock('{$module->clientId}', '{$module->domain}');
+  var lock = new Auth0Lock('{$model->clientId}', '{$model->domain}');
 
 
   lock.show({
       focusInput: true,
       rememberLastLogin: false,
       container: 'root'
-    , callbackURL: '{$module->redirectUri}'
+    , callbackURL: '{$model->redirectUrl}'
     , responseType: 'code'
     , authParams: {
         scope: 'openid profile'
