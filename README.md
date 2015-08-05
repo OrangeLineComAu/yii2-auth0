@@ -26,14 +26,26 @@ Configuration
 
 Update the `modules` section with:
 
-    'auth0' => [
-        'serviceId' => '',
+    'auth0' => array_merge([
         'class' => 'anli\auth0\Module',
-        'domain' => '',
-        'clientId' => '',
-        'clientSecret' => '',
-        'redirectUri' => 'http://localhost:8100/auth0/user/login',
-    ],
+    ], $auth0Configs),
+
+Create a new file in `config/auth0-local.php`:
+
+    <?php
+    if (YII_ENV_DEV) {
+        return [
+            'serviceId' => '',
+            'domain' => '',
+            'clientId' => '',
+            'clientSecret' => '',
+            'redirectUrl' => '',
+        ];
+    }
+
+Add to your `.gitignore` file:
+
+    /config/auth0-local.php
 
 Login to auth0 and update the `Allowed Callback Urls` in your setting page.
 
@@ -45,9 +57,6 @@ Update the `components` section in the config with:
     ],
     'tenant' => [
         'class' => 'anli\auth0\models\Tenant',
-    ],
-    'auth0' => [
-        'class' => 'anli\auth0\models\Auth0',
     ],
 
 If you encounter the following error

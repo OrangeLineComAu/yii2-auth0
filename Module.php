@@ -79,8 +79,8 @@ class Module extends \yii\base\Module
             'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
             'redirect_uri'  => $this->redirectUrl,
-            'persist_id_token' => true,
-            'persist_access_token' => true,
+            'persist_id_token' => $this->persistIdToken,
+            'persist_access_token' => $this->persistAccessToken,
         ]);
     }
 
