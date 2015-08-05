@@ -38,6 +38,11 @@ class LoginForm extends Model
     private $_user = false;
 
     /**
+     * @var mixed
+     */
+    private $_tenant = false;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -56,6 +61,7 @@ class LoginForm extends Model
     public function login()
     {
         Yii::$app->user->login($this->getUser());
+        Yii::$app->tenant->login($this->getTenant());
 
         return true;
     }
@@ -73,5 +79,19 @@ class LoginForm extends Model
         }
 
         return $this->_user;
+    }
+
+    /**
+     * Finds tenant by auth0 authenticated user app metadata
+     *
+     * @return User|null
+     */
+    public function getTenant()
+    {
+        if ($this->_tenant === false) {
+            $this->_tenant = Tenant::findByAuth0();
+        }
+
+        return $this->_tenant;
     }
 }

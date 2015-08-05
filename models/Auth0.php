@@ -127,4 +127,12 @@ class Auth0 extends \Auth0\SDK\Auth0
 
         return [];
     }
+
+    /**
+     * @return string
+     */
+    public static function getServiceId()
+    {
+        return Yii::$app->getModule('auth0')->serviceId;
+    }
 }

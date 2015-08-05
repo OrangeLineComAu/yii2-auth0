@@ -36,6 +36,9 @@ class m150805_092256_create_tenant_tables extends Migration
 		$this->addForeignKey('fk_tenant_tenant_user', '{{%tenant_user}}', 'tenant_id', '{{%tenant}}', 'id', 'CASCADE', 'RESTRICT');
         $this->addForeignKey('fk_user_tenant_user', '{{%tenant_user}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
 		/* END relationship */
+
+        /* BEGIN index */
+        $this->createIndex('ix_tenant_name', '{{%tenant}}', 'name', true);
     }
 
     public function safeDown()
