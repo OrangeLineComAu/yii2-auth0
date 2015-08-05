@@ -11,7 +11,7 @@ use anli\auth0\models\LoginForm;
 use Yii;
 
 /**
- * This is the user controller class.
+ * This is the controller class for the User model.
  * @author Su Anli <anli@euqol.com>
  * @since 1.0.0
  */
@@ -27,8 +27,7 @@ class UserController extends \yii\web\Controller
 
         $auth0 = $this->module->auth0;
 
-        if ($auth0->getUser()) {
-
+        if ($auth0->getUser() && $auth0->validate()) {
             $model->login();
             return $this->goHome();
         }

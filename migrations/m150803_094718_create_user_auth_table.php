@@ -26,10 +26,16 @@ class m150803_094718_create_user_auth_table extends Migration
             'source'	   			=> Schema::TYPE_STRING . '(255) NOT NULL',
             'source_id'	   			=> Schema::TYPE_STRING . '(255) NOT NULL',
         ]);
+
+        /* BEGIN relationship */
+		$this->addForeignKey('fk_user_auth', '{{%auth}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+		/* END relationship */
     }
 
     public function safeDown()
     {
+        $this->dropForeignKey('fk_user_auth', '{{%auth}}');
+
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%auth}}');
     }

@@ -10,12 +10,37 @@ namespace anli\auth0\models;
 use Yii;
 
 /**
- * This is the auth0 model class.
+ * This is the model class for [[\Auth0\SDK\Auth0]].
  * @author Su Anli <anli@euqol.com>
  * @since 1.0.0
  */
 class Auth0 extends \Auth0\SDK\Auth0
 {
+    /**
+     * @return boolean Return true if the login is validated
+     * @throws \yii\web\HttpException
+     */
+    public function validate()
+    {
+        if (!isset($this->getUser()['app_metadata'])) {
+            $this->logout();
+            throw new \yii\web\HttpException(400, 'No app meta data', 405);
+        }
+
+        if (!in_array($this->getServiceId(), $this->getServiceIds())) {
+            $this->logout();
+            throw new \yii\web\HttpException(400, 'Not authorized to use this service', 405);
+        }
+
+        if (0 == count($this->getTenants())) {
+            $this->logout();
+            Yii::$app->user->logout();
+            throw new \yii\web\HttpException(400, 'No tenant assigned', 405);
+        }
+
+        return true;
+    }
+
     /**
      * @return string
      */
