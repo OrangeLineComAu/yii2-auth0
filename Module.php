@@ -47,9 +47,19 @@ class Module extends \yii\base\Module
     public $clientSecret = '';
 
     /**
+     * @var boolean
+     */
+    public $redirectUrl = '';
+
+    /**
      * @var string
      */
-    public $redirectUri = '';
+    public $persistIdToken = true;
+
+    /**
+     * @var string
+     */
+    public $persistAccessToken = true;
 
     /**
      * @inheritdoc
@@ -68,9 +78,9 @@ class Module extends \yii\base\Module
             'domain'        => $this->domain,
             'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'redirect_uri'  => $this->redirectUri,
-            'persist_id_token' => true,
-            'persist_access_token' => true,
+            'redirect_uri'  => $this->redirectUrl,
+            'persist_id_token' => $this->persistIdToken,
+            'persist_access_token' => $this->persistAccessToken,
         ]);
     }
 

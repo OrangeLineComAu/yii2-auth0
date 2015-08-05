@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link http://www.euqol.com/
+ * @copyright Copyright (c) 2015 Su Anli
+ * @license http://www.euqol.com/license/
+ */
 
 namespace anli\auth0\models;
 
@@ -11,6 +16,9 @@ use Yii;
  * @property integer $user_id
  * @property string $source
  * @property string $source_id
+ *
+ * @author Su Anli <anli@euqol.com>
+ * @since 1.0.0
  */
 class Auth extends \yii\db\ActiveRecord
 {

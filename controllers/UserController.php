@@ -7,10 +7,11 @@
 
 namespace anli\auth0\controllers;
 
+use anli\auth0\models\LoginForm;
 use Yii;
 
 /**
- * This is the user controller class.
+ * This is the controller class for the User model.
  * @author Su Anli <anli@euqol.com>
  * @since 1.0.0
  */
@@ -22,15 +23,17 @@ class UserController extends \yii\web\Controller
      */
     public function actionLogin()
     {
+        $model = new LoginForm;
+
         $auth0 = $this->module->auth0;
 
-        if ($auth0->getUser()) {
-            $auth0->loginUser();
-            return Yii::$app->user->identity->username;
+        if ($auth0->getUser() && $auth0->validate()) {
+            $model->login();
+            return $this->goHome();
         }
 
         return $this->render('login', [
-            'module' => $this->module,
+            'model' => $model,
         ]);
     }
 

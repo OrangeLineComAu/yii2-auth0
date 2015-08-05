@@ -26,22 +26,64 @@ Configuration
 
 Update the `modules` section with:
 
-    'auth0' => [
-        'serviceId' => '',
+    'auth0' => array_merge([
         'class' => 'anli\auth0\Module',
+    ], $auth0Configs),
+
+Create a new file in `config/auth0-local.php`:
+
+    <?php
+    if (YII_ENV_DEV) {
+        return [
+            'serviceId' => '',
+            'domain' => '',
+            'clientId' => '',
+            'clientSecret' => '',
+            'redirectUrl' => '',
+        ];
+    }
+
+    return [
+        'serviceId' => '',
         'domain' => '',
         'clientId' => '',
         'clientSecret' => '',
-        'redirectUri' => 'http://localhost:8100/auth0/user/login',
-    ],
+        'redirectUrl' => '',
+    ];
+
+Add to your `.gitignore` file:
+
+    /config/auth0-local.php
 
 Login to auth0 and update the `Allowed Callback Urls` in your setting page.
 
 Update the `components` section in the config with:
 
     'user' => [
-        'loginUrl' => ['auth0/user/login'],  
+        'identityClass' => 'anli\auth0\models\User',
+        'loginUrl' => ['auth0/user/login'],
     ],
+    'tenant' => [
+        'class' => 'anli\auth0\models\Tenant',
+    ],
+
+Usage
+-----
+
+Update your `url` section for your login button to `[/auth0/user/login]`.
+
+Update your `url` section for your logout button to `[/auth0/user/logout]`.
+
+To show the login user, use:
+
+    Html::encode(Yii::$app->user->identity->username);
+
+To show the login tenant, use:
+
+    Html::encode(Yii::$app->tenant->identity->name);
+
+FAQs
+-----
 
 If you encounter the following error
 
@@ -76,6 +118,3 @@ and update C:\xampp\php\php.ini with
     curl.cainfo=C:\xampp\php\ca\cacert.pem
 
 Restart your apache2 server.
-
-Usage
------

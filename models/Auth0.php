@@ -10,95 +10,44 @@ namespace anli\auth0\models;
 use Yii;
 
 /**
- * This is the auth0 model class.
+ * This is the model class for [[\Auth0\SDK\Auth0]].
  * @author Su Anli <anli@euqol.com>
  * @since 1.0.0
  */
 class Auth0 extends \Auth0\SDK\Auth0
 {
     /**
-     * @return mixed
+     * @return boolean Return true if the login is validated
+     * @throws \yii\web\HttpException
      */
-    public function getAuth()
+    public function validate()
     {
-        return Auth::find()->where([
-            'source' => 'auth0',
-            'source_id' => $this->getUser()['user_id'],
-        ])->one();
+        if (!isset($this->getUser()['app_metadata'])) {
+            $this->logout();
+            throw new \yii\web\HttpException(400, 'No app meta data', 405);
+        }
+
+        if (!in_array($this->getServiceId(), $this->getServiceIds())) {
+            $this->logout();
+            throw new \yii\web\HttpException(400, 'Not authorized to use this service', 405);
+        }
+
+        if (0 == count($this->getTenants())) {
+            $this->logout();
+            Yii::$app->user->logout();
+            throw new \yii\web\HttpException(400, 'No tenant assigned', 405);
+        }
+
+        return true;
     }
 
     /**
-     * @return boolean Return true if user login is successful
+     * @return string
      */
-    public function loginUser()
+    public function getDefaultTenant()
     {
-        if (Yii::$app->user->isGuest) {
-
-            if ($this->getAuth()) {
-                Yii::$app->user->login($this->getAuth()->user);
-                return true;
-            }
-
-            $this->createUserAndLogin();
-        }
-
-        return false;
+        return $this->getTenants()[0];
     }
-
-    /**
-     * @return mixed
-     */
-    protected function createUserAndLogin()
-    {
-        $user = new User([
-            'username' => $this->getUser()['nickname'],
-            'email' => $this->getUser()['email'],
-            'password' => Yii::$app->security->generateRandomString(6),
-        ]);
-        $user->generateAuthKey();
-        $user->generatePasswordResetToken();
-        $transaction = $user->getDb()->beginTransaction();
-        if ($user->save()) {
-            $auth = new Auth([
-                'user_id' => $user->id,
-                'source' => 'auth0',
-                'source_id' => (string)$this->getUser()['user_id'],
-            ]);
-            if ($auth->save()) {
-                $transaction->commit();
-                Yii::$app->user->login($user);
-
-                return true;
-            }
-
-            print_r($auth->getErrors());
-            return false;
-        }
-
-        print_r($user->getErrors());
-        return false;
-    }
-
-    /**
-     * @param string $name
-     * @return boolean Return true if tenant login is successful
-     */
-    /*public function loginTenant()
-    {
-        if (!this->getTenant()) {
-            $this->createTenant();
-        }
-
-        return
-
-        if (!$this->getTenantByName($name)) {
-            if ($this->createTenant(['name' => $name])) {
-                return $this->getTenantByName($name)->login();
-            }
-        }
-
-        return $this->getTenantByName($name)->login();
-    }*/
 
     /**
      * @return array
@@ -126,5 +75,13 @@ class Auth0 extends \Auth0\SDK\Auth0
         }
 
         return [];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getServiceId()
+    {
+        return Yii::$app->getModule('auth0')->serviceId;
     }
 }
