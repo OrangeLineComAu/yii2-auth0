@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Model;
 
 /**
- * This is the model class for user login.
+ * This is the class for Login Form.
  * @author Su Anli <anli@euqol.com>
  * @since 1.0.0
  */
