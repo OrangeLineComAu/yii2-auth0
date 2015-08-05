@@ -43,6 +43,12 @@ Update the `components` section in the config with:
         'identityClass' => 'anli\auth0\models\User',
         'loginUrl' => ['auth0/user/login'],
     ],
+    'tenant' => [
+        'class' => 'anli\auth0\models\Tenant',
+    ],
+    'auth0' => [
+        'class' => 'anli\auth0\models\Auth0',
+    ],
 
 If you encounter the following error
 

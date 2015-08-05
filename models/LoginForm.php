@@ -51,7 +51,7 @@ class LoginForm extends Model
 
         $this->clientId = Yii::$app->getModule('auth0')->clientId;
         $this->domain = Yii::$app->getModule('auth0')->domain;
-        $this->redirectUrl = Yii::$app->getModule('auth0')->redirectUri;
+        $this->redirectUrl = Yii::$app->getModule('auth0')->redirectUrl;
     }
 
     /**
