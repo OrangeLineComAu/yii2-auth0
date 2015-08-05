@@ -83,7 +83,7 @@ class Auth0 extends \Auth0\SDK\Auth0
      * @param string $name
      * @return boolean Return true if tenant login is successful
      */
-    public function loginTenant()
+    /*public function loginTenant()
     {
         if (!this->getTenant()) {
             $this->createTenant();
@@ -98,7 +98,7 @@ class Auth0 extends \Auth0\SDK\Auth0
         }
 
         return $this->getTenantByName($name)->login();
-    }
+    }*/
 
     /**
      * @return array
