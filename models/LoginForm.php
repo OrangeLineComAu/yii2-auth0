@@ -18,21 +18,6 @@ use yii\base\Model;
 class LoginForm extends Model
 {
     /**
-     * @var string
-     */
-    public $clientId = '';
-
-    /**
-     * @var string
-     */
-    public $domain = '';
-
-    /**
-     * @var string
-     */
-    public $redirectUrl = '';
-
-    /**
      * @var mixed
      */
     private $_user = false;
@@ -48,10 +33,6 @@ class LoginForm extends Model
     public function init()
     {
         parent::init();
-
-        $this->clientId = Yii::$app->getModule('auth0')->clientId;
-        $this->domain = Yii::$app->getModule('auth0')->domain;
-        $this->redirectUrl = Yii::$app->getModule('auth0')->redirectUrl;
     }
 
     /**
