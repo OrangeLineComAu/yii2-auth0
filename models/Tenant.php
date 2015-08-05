@@ -104,11 +104,11 @@ class Tenant extends \yii\db\ActiveRecord
     public static function findByAuth0()
     {
         $query = self::find()
-        ->andWhere(['name' => Yii::$app->getModule('auth0')->auth0->getTenants()[0]]);
+        ->andWhere(['name' => Yii::$app->getModule('auth0')->auth0->getDefaultTenant()]);
 
         if (!$query->exists()) {
             $model = new Tenant;
-            $model->name = Yii::$app->getModule('auth0')->auth0->getTenants()[0];
+            $model->name = Yii::$app->getModule('auth0')->auth0->getDefaultTenant();
             $model->save();
             $model->refresh();
 
