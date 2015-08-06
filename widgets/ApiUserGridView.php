@@ -7,7 +7,7 @@
 
 namespace anli\auth0\widgets;
 
-use Auth0\SDK\API\ApiUsers as Auth0ApiUsers;
+use anli\auth0\models\ApiUser;
 use Yii;
 use yii\bootstrap\Widget;
 use yii\helpers\Html;
@@ -20,29 +20,19 @@ use yii\grid\GridView;
  * echo \anli\auth0\widgets\ApiUserGridView::widget([]);
  * ```
  * @author Su Anli <anli@euqol.com>
- * @since 1.0.0
+ * @since 1.1.0
  */
 class ApiUserGridView extends Widget
 {
     /**
+     * @var mixed
+     */
+    public $query = [];
+
+    /**
      * @var array
      */
-    public $params = [];
-
-    /**
-     * @var string
-     */
-    protected $domain = '';
-
-    /**
-     * @var string
-     */
-    protected $token = '';
-
-    /**
-     * @var string
-     */
-    protected $serviceId = '';
+    public $columns = [];
 
     /**
      * Initializes the widget.
@@ -51,17 +41,8 @@ class ApiUserGridView extends Widget
     {
        parent::init();
 
-       $this->domain = Yii::$app->getModule('auth0')->domain;
-       $this->token = Yii::$app->getModule('auth0')->apiTokens['usersRead'];
-       $this->serviceId = Yii::$app->getModule('auth0')->serviceId;
-
-       if (empty($this->params)) {
-           $this->params = [
-               'sort' => 'email:1',
-               'fields' => 'nickname,email,user_id,app_metadata',
-               'q' => "_exists_:app_metadata.permissions.{$this->serviceId}",
-               'search_engine' => 'v2',
-           ];
+       if (empty($this->query)) {
+           $this->query = ApiUser::find();
        }
     }
 
@@ -73,18 +54,8 @@ class ApiUserGridView extends Widget
     {
         echo GridView::widget([
             'dataProvider' => $this->dataProvider,
-            'columns' => [
-                'nickname',
-                'email',
-                'user_id',
-                [
-                    'attribute' => 'app_metadata',
-                    'value' => function ($model, $key, $index, $column){
-                        return (isset($model['app_metadata'])) ?
-                            yii\helpers\Json::htmlEncode($model['app_metadata']) : '';
-                    }
-                ]
-            ],
+            'columns' => $this->columns,
+            //'columns' => ['nickname'],
         ]);
     }
 
@@ -94,7 +65,10 @@ class ApiUserGridView extends Widget
     protected function getDataProvider()
     {
         return new ArrayDataProvider([
-            'allModels' => Auth0ApiUsers::search($this->domain, $this->token, $this->params)
+            'allModels' => $this->query->all(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
     }
 }
