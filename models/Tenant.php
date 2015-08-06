@@ -77,23 +77,7 @@ class Tenant extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TenantQuery(get_called_class());
-    }
-
-    /**
-     * @return boolean
-     */
-    public static function login($model)
-    {
-        return Yii::$app->session->set('user.tenantId', $model->id);
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getIdentity()
-    {
-        return self::findOne(Yii::$app->session->get('user.tenantId'));
-    }
+    }    
 
     /**
      * Finds tenant by auth0 authenticated user first tenant name for the current service.
