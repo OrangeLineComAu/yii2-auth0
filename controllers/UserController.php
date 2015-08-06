@@ -47,4 +47,14 @@ class UserController extends \yii\web\Controller
         Yii::$app->user->logout();
         return $this->goHome();
     }
+
+    /**
+     * Logout a user with auth0
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        return $this->render('index', [
+        ]);
+    }
 }

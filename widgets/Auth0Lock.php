@@ -61,6 +61,9 @@ class Auth0Lock extends Widget
         echo Html::tag('div', '', ['id' => 'root', 'style' => "width: 280px; margin: 40px auto; padding: 10px; border-width: 1px;"]);
     }
 
+    /**
+     * @return string
+     */
     protected function getJs()
     {
         return <<< JS
