@@ -77,7 +77,7 @@ class Tenant extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TenantQuery(get_called_class());
-    }    
+    }
 
     /**
      * Finds tenant by auth0 authenticated user first tenant name for the current service.
