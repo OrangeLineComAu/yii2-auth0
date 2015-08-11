@@ -191,15 +191,15 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return mixed Return null if no matching record
      */
-    public static function findByAuth0()
+    public static function findByAuth0($auth0Data)
     {
         $query = self::find()
         ->joinWith('auth')
-        ->andWhere(['source_id' => Yii::$app->getModule('auth0')->auth0->getUser()['user_id']])
+        ->andWhere(['source_id' => $auth0Data['user_id']])
         ->andWhere(['source' => 'auth0']);
 
         if (!$query->exists()) {
-            return self::createFromAuth0();
+            return self::createFromAuth0($auth0Data);
         }
 
         return $query->one();
@@ -216,11 +216,11 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return $mixed Return false on error
      */
-    public static function createFromAuth0()
+    public static function createFromAuth0($auth0Data)
     {
         $model = new self([
-            'username' => Yii::$app->getModule('auth0')->auth0->getUser()['nickname'],
-            'email' => Yii::$app->getModule('auth0')->auth0->getUser()['email'],
+            'username' => $auth0Data['nickname'],
+            'email' => $auth0Data['email'],
             'password' => Yii::$app->security->generateRandomString(6),
         ]);
         $model->generateAuthKey();
@@ -230,7 +230,7 @@ class User extends ActiveRecord implements IdentityInterface
             $auth = new Auth([
                 'user_id' => $model->id,
                 'source' => 'auth0',
-                'source_id' => (string)Yii::$app->getModule('auth0')->auth0->getUser()['user_id'],
+                'source_id' => (string)$auth0Data['user_id'],
             ]);
             if ($auth->save()) {
                 $transaction->commit();

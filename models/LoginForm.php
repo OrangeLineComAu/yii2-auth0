@@ -55,8 +55,10 @@ class LoginForm extends Model
      */
     public function getUser()
     {
+        $auth0Data = Yii::$app->getModule('auth0')->auth0->getUser();
+
         if ($this->_user === false) {
-            $this->_user = User::findByAuth0();
+            $this->_user = User::findByAuth0($auth0Data);
         }
 
         return $this->_user;

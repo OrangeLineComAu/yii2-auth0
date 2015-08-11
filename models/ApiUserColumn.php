@@ -8,6 +8,8 @@
 namespace anli\auth0\models;
 
 use Yii;
+use yii\grid\ActionColumn;
+use yii\helpers\Html;
 
 /**
  * This is the column class for [[ApiUser]].
@@ -18,6 +20,8 @@ use Yii;
  */
 class ApiUserColumn
 {
+    const CONTROLLER = 'api-user';
+
     /**
      * @var array
      */
@@ -52,14 +56,58 @@ class ApiUserColumn
     /**
      * @return mixed
      */
-    public function hasService()
+    public function role()
     {
         $this->columns = array_merge($this->columns, [
             [
-                'label' => 'Service',
+                'label' => 'Role',
                 'value' => function ($model, $key, $index, $column) {
-                    return $model['user_id'];
+                    if (isset($model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'])) {
+
+                        return $model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'];
+                    }
+                    return '';
                 }
+            ]
+        ]);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function userId()
+    {
+        $this->columns = array_merge($this->columns, ['user_id']);
+        return $this;
+    }
+
+    /**
+     * @return string $template
+     * @return mixed
+     */
+    public function actions($template = '{update} {delete}')
+    {
+        $this->columns = array_merge($this->columns, [
+            [
+                'header' => 'actions',
+                'class' => ActionColumn::className(),
+                'controller' => SELF::CONTROLLER,
+                'template' => $template,
+                'buttons' => [
+                    'update-role-to-user' => function ($url, $model, $key) {
+                        return Html::a('add', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'role' => 'user'], [
+                            'title' => 'Add',
+                            'data-toggle' => 'tooltip',
+                        ]);
+                    },
+                    'remove-tenant' => function ($url, $model, $key) {
+                        return Html::a('remove', [SELF::CONTROLLER . '/remove-tenant', 'userId' => $model['user_id']], [
+                            'title' => 'Remove',
+                            'data-toggle' => 'tooltip',
+                        ]);
+                    },
+                ],
             ]
         ]);
         return $this;
