@@ -19,6 +19,11 @@ use Yii;
 class ApiUser extends \yii\base\Model
 {
     /**
+     * @var mixed
+     */
+    public $apiUsers;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -50,5 +55,18 @@ class ApiUser extends \yii\base\Model
     public static function column()
     {
         return new ApiUserColumn(get_called_class());
+    }
+
+    /**
+     * @param string $userId
+     * @return mixed
+     */
+    public function findOne($userId)
+    {
+        if ('' != $userId) {
+            return ApiUsers::get(Yii::$app->getModule('auth0')->domain, Yii::$app->getModule('auth0')->apiTokens['usersRead'], $userId);
+        }
+
+        return false;
     }
 }

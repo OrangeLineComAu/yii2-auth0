@@ -23,8 +23,12 @@ class ServiceAdminController extends \yii\web\Controller
      */
     public function actionIndex()
     {
+        Yii::$app->user->setReturnUrl(['/' . $this->getRoute()]);
+
+        $query = ApiUser::find()->orderBy('email:1');
+
         return $this->render('index', [
-            'query' => ApiUser::find()->orderBy('email:1'),
+            'query' => $query,
         ]);
     }
 }

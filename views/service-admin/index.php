@@ -11,5 +11,7 @@ use yii\helpers\Html;
         ->nickname()
         ->email()
         ->role()
+        ->userId()
+        ->actions('{update-role-to-user} {remove-tenant}')
         ->all(),
 ]);?>
