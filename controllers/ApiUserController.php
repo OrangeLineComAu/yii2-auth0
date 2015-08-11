@@ -8,6 +8,7 @@
 namespace anli\auth0\controllers;
 
 use anli\auth0\models\User;
+use anli\auth0\models\TenantUser;
 use anli\auth0\models\ApiUser;
 use Auth0\SDK\API\ApiUsers;
 use Yii;
@@ -42,6 +43,7 @@ class ApiUserController extends \yii\web\Controller
 
                 if ($this->update($userId, array_replace_recursive(['app_metadata' => $model['app_metadata']], $data))) {
                     $user = User::findByAuth0($model);
+                    $tenantUser = TenantUser::findByTenantUser(Yii::$app->tenant->identity, $user);
 
                     $msg = 'Successful updated a role';
                     return $this->goBack();
@@ -51,6 +53,7 @@ class ApiUserController extends \yii\web\Controller
 
             if ($this->update($userId, $data)) {
                 $user = User::findByAuth0($model);
+                $tenantUser = TenantUser::findByTenantUser(Yii::$app->tenant->identity, $user);
 
                 $msg = 'Successfully added a role';
                 return $this->goBack();
