@@ -10,6 +10,6 @@ use yii\helpers\Html;
     'columns' => anli\auth0\models\ApiUser::column()
         ->nickname()
         ->email()
-        ->hasService()
+        ->role()
         ->all(),
 ]);?>

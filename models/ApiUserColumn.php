@@ -52,13 +52,17 @@ class ApiUserColumn
     /**
      * @return mixed
      */
-    public function hasService()
+    public function role()
     {
         $this->columns = array_merge($this->columns, [
             [
-                'label' => 'Service',
+                'label' => 'Role',
                 'value' => function ($model, $key, $index, $column) {
-                    return $model['user_id'];
+                    if (isset($model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'])) {
+
+                        return $model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'];
+                    }
+                    return '';
                 }
             ]
         ]);
