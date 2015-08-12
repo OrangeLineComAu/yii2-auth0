@@ -96,13 +96,13 @@ class ApiUserColumn
                 'template' => $template,
                 'buttons' => [
                     'update-role-to-user' => function ($url, $model, $key) {
-                        return Html::a('add', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'role' => 'user'], [
+                        return Html::a('<i class="fa fa-check"></i>', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'role' => 'user'], [
                             'title' => 'Add',
                             'data-toggle' => 'tooltip',
                         ]);
                     },
                     'remove-tenant' => function ($url, $model, $key) {
-                        return Html::a('remove', [SELF::CONTROLLER . '/remove-tenant', 'userId' => $model['user_id']], [
+                        return Html::a('<i class="fa fa-times"></i>', [SELF::CONTROLLER . '/remove-tenant', 'userId' => $model['user_id']], [
                             'title' => 'Remove',
                             'data-toggle' => 'tooltip',
                         ]);

@@ -17,6 +17,8 @@ use Yii;
  */
 class ServiceAdminController extends \yii\web\Controller
 {
+    public $layout = '@vendor/anli/yii2-metronic/views/layouts/main';
+
     /**
      * See all users by service
      * @return mixed
