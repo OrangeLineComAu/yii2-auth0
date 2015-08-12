@@ -62,6 +62,10 @@ class Module extends \yii\base\Module
     public $persistAccessToken = true;
 
     /**
+     * @var array
+     */
+    public $apiTokens = [];
+    /**
      * @inheritdoc
      */
     public function init()

@@ -40,6 +40,10 @@ Create a new file in `config/auth0-local.php`:
             'clientId' => '',
             'clientSecret' => '',
             'redirectUrl' => '',
+            'apiTokens' => [
+                'usersRead' => '',
+                'usersUpdate' => '',
+            ]
         ];
     }
 
@@ -49,6 +53,10 @@ Create a new file in `config/auth0-local.php`:
         'clientId' => '',
         'clientSecret' => '',
         'redirectUrl' => '',
+        'apiTokens' => [
+            'usersRead' => '',
+            'usersUpdate' => '',
+        ]
     ];
 
 Add to your `.gitignore` file:
