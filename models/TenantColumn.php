@@ -84,4 +84,21 @@ class TenantColumn
         ]);
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function nameWithLink()
+    {
+        $this->columns = array_merge($this->columns, [
+            [
+                'attribute' => 'name',
+                'value' => function ($model, $key, $index, $column) {
+                    return Html::a(Html::encode($model->name), [SELF::CONTROLLER . '/view', 'id' => $model->id]);
+                },
+                'format' => 'raw',
+            ],
+        ]);
+        return $this;
+    }
 }

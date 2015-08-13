@@ -54,17 +54,18 @@ class ApiUserColumn
     }
 
     /**
+     * @param string $tenantName
      * @return mixed
      */
-    public function role()
+    public function role($tenantName)
     {
         $this->columns = array_merge($this->columns, [
             [
                 'label' => 'Role',
-                'value' => function ($model, $key, $index, $column) {
-                    if (isset($model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'])) {
+                'value' => function ($model, $key, $index, $column) use ($tenantName) {
+                    if (isset($model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][$tenantName]['role'])) {
 
-                        return $model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][Yii::$app->tenant->identity->name]['role'];
+                        return $model['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][$tenantName]['role'];
                     }
                     return '';
                 }
@@ -111,5 +112,34 @@ class ApiUserColumn
             ]
         ]);
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function tenants()
+    {
+        $this->columns = array_merge($this->columns, [
+            [
+                'label' => 'Tenants',
+                'value' => function ($model, $key, $index, $column) {
+
+                    $count = TenantUser::find()->joinWith(['user.auth'])->andWhere(['{{%auth}}.source_id' => $model['user_id']])->count();
+
+                    return ($count > 0) ? Yii::$app->formatter->asDecimal($count, 0) : '' ;
+                },
+                'contentOptions' => ['class' => 'text-center'],
+                'headerOptions' => ['class' => 'text-center'],
+            ],
+        ]);
+        return $this;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTenantUsers()
+    {
+        return $this->hasMany(TenantUser::className(), ['tenant_id' => 'id']);
     }
 }

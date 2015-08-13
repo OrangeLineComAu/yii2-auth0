@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- BEGIN user portlet -->
     <div class="col-md-6">
-    <?php Portlet::begin(['id' => 'user-portlet', 'title' => 'Users', 'subtitle' => 'showing all users...' ]); ?>
+    <?php Portlet::begin(['id' => 'user-portlet', 'title' => 'Users Permission', 'subtitle' => 'for this tenant...' ]); ?>
 
     <?= GridView::widget([
         'id' => 'user-gridview',
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => ApiUser::column()
             ->nickname()
             ->email()
-            ->role()
+            ->tenants()
             ->actions("{update-role-to-user} {remove-tenant}")
             ->all(),
     ]);?>
@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- BEGIN tenant portlet -->
     <div class="col-md-6">
-    <?php Pjax::begin(['id' => 'container-pjax']); ?>
-    <?php Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing all tenants...',
+    <?php Pjax::begin(['options' => ['id' => 'container-pjax']]); ?>
+    <?php Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing  total users...',
         'buttons' => [
             Html::a('<i class="fa fa-plus"></i>', false, ['value' => Url::to(['tenant/create']), 'title' => 'Create Tenant', 'class' => 'showModalButton btn btn-circle green-haze btn-sm']),
             Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm', 'data-confirm' => 'Are you sure you want to delete all items?', 'data-method' => 'post', 'data-pjax' => 0]),
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'tenant-gridview',
         'dataProvider' => new ActiveDataProvider(['query' => $tenantQuery, 'pagination' => ['pageSize' => 10,]]),
         'columns' => Tenant::column()
-            ->name()
+            ->nameWithLink()
             ->users()
             ->actions()
             ->all(),

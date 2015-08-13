@@ -1,5 +1,9 @@
 <?php
 
+use anli\auth0\models\ApiUser;
+use anli\metronic\widgets\Portlet;
+use anli\metronic\widgets\GridView;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -10,31 +14,23 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Tenants', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tenant-view">
+<div class="row">
+    <!-- BEGIN user portlet -->
+    <div class="col-md-6">
+    <?php Portlet::begin(['id' => 'user-portlet', 'title' => 'Users Permission', 'subtitle' => 'for this tenant...' ]); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?= GridView::widget([
+        'id' => 'user-gridview',
+        'dataProvider' => new ArrayDataProvider(['allModels' => ApiUser::find()->orderBy('email:1')->all(), 'pagination' => ['pageSize' => 10,]]),
+        'columns' => ApiUser::column()
+            ->nickname()
+            ->email()
+            ->role($model->name)
+            ->actions("{update-role-to-user} {remove-tenant}")
+            ->all(),
+    ]);?>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'created_at',
-            'create_user_id',
-            'updated_at',
-            'update_user_id',
-        ],
-    ]) ?>
-
+    <?php Portlet::end(); ?>
+    </div>
+    <!-- END user portlet -->
 </div>
