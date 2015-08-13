@@ -20,7 +20,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $layout = '@vendor/anli/yii2-auth0/views/layouts/main';
+    public $layout = '@vendor/anli/yii2-metronic/views/layouts/main';
 
     /**
      * @var string

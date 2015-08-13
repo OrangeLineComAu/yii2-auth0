@@ -8,6 +8,7 @@
 namespace anli\auth0\controllers;
 
 use anli\auth0\models\ApiUser;
+use anli\auth0\models\Tenant;
 use Yii;
 
 /**
@@ -16,9 +17,7 @@ use Yii;
  * @since 1.1.0
  */
 class ServiceAdminController extends \yii\web\Controller
-{
-    public $layout = '@vendor/anli/yii2-metronic/views/layouts/main';
-
+{    
     /**
      * See all users by service
      * @return mixed
@@ -27,10 +26,12 @@ class ServiceAdminController extends \yii\web\Controller
     {
         Yii::$app->user->setReturnUrl(['/' . $this->getRoute()]);
 
-        $query = ApiUser::find()->orderBy('email:1');
+        $userQuery = ApiUser::find()->orderBy('email:1');
+        $tenantQuery = Tenant::find()->orderBy('name');
 
         return $this->render('index', [
-            'query' => $query,
+            'userQuery' => $userQuery,
+            'tenantQuery' => $tenantQuery,
         ]);
     }
 }

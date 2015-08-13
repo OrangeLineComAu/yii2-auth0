@@ -101,4 +101,12 @@ class Tenant extends \yii\db\ActiveRecord
 
         return $query->one();
     }
+
+    /**
+     * @return array
+     */
+    public static function column()
+    {
+        return new TenantColumn(get_called_class());
+    }
 }
