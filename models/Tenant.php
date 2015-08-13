@@ -8,6 +8,9 @@
 namespace anli\auth0\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tenant}}".
@@ -108,5 +111,25 @@ class Tenant extends \yii\db\ActiveRecord
     public static function column()
     {
         return new TenantColumn(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'create_user_id',
+                'updatedByAttribute' => 'update_user_id',
+            ],
+        ];
     }
 }

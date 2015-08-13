@@ -106,8 +106,6 @@ class TenantController extends Controller
     {
         $model = $this->findModel($id);
 
-        $model = new Tenant();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
              Yii::$app->response->format = Response::FORMAT_JSON;
              return [
@@ -120,7 +118,7 @@ class TenantController extends Controller
             return \yii\widgets\ActiveForm::validate($model);
         }
 
-        return $this->renderAjax('create', [
+        return $this->renderAjax('update', [
             'model' => $model
         ]);
     }
