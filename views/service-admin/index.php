@@ -52,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => new ActiveDataProvider(['query' => $tenantQuery, 'pagination' => ['pageSize' => 10,]]),
         'columns' => Tenant::column()
             ->name()
+            ->users()
             ->actions()
             ->all(),
     ]);?>
