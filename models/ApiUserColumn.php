@@ -90,7 +90,6 @@ class ApiUserColumn
     {
         $this->columns = array_merge($this->columns, [
             [
-                'header' => 'actions',
                 'class' => ActionColumn::className(),
                 'controller' => SELF::CONTROLLER,
                 'template' => $template,
@@ -108,6 +107,7 @@ class ApiUserColumn
                         ]);
                     },
                 ],
+                'contentOptions' => ['class' => 'text-right'],
             ]
         ]);
         return $this;

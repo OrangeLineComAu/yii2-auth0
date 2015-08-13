@@ -42,7 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(['id' => 'container-pjax']); ?>
     <?php Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing all tenants...',
         'buttons' => [
-            Html::a('<i class="fa fa-plus"></i>', false, ['value' => Url::to(['tenant/create']), 'title' => 'Create Tenant', 'class' => 'showModalButton btn btn-circle green-haze btn-sm'])
+            Html::a('<i class="fa fa-plus"></i>', false, ['value' => Url::to(['tenant/create']), 'title' => 'Create Tenant', 'class' => 'showModalButton btn btn-circle green-haze btn-sm']),
+            Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm']),
         ],
     ]); ?>
 
@@ -51,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => new ActiveDataProvider(['query' => $tenantQuery, 'pagination' => ['pageSize' => 10,]]),
         'columns' => Tenant::column()
             ->name()
+            ->actions()
             ->all(),
     ]);?>
 

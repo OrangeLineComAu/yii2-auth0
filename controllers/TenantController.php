@@ -2,9 +2,9 @@
 
 namespace anli\auth0\controllers;
 
-use Yii;
 use anli\auth0\models\Tenant;
 use anli\auth0\models\TenantSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,6 +16,11 @@ use yii\widgets\ActiveForm;
  */
 class TenantController extends Controller
 {
+    /**
+     * @var string
+     */
+    const MODEL_FULL_NAME = 'anli\auth0\models\Tenant';
+
     public function behaviors()
     {
         return [
@@ -28,6 +33,16 @@ class TenantController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'delete-all' => [
+               'class' => 'anli\helper\actions\DeleteAll',
+               'modelFullName' => self::MODEL_FULL_NAME,
+               'noTenant' => true,
+            ],
+        ];
+    }
     /**
      * Lists all Tenant models.
      * @return mixed
@@ -91,13 +106,23 @@ class TenantController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model = new Tenant();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+             Yii::$app->response->format = Response::FORMAT_JSON;
+             return [
+                'message' => 'successful',
+             ];
         }
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return \yii\widgets\ActiveForm::validate($model);
+        }
+
+        return $this->renderAjax('create', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -109,8 +134,7 @@ class TenantController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->goBack();
     }
 
     /**

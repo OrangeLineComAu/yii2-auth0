@@ -10,6 +10,7 @@ namespace anli\auth0\models;
 use Yii;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * This is the column class for [[Tenant]].
@@ -58,6 +59,28 @@ class TenantColumn
                     return ($count > 0) ? Yii::$app->formatter->asDecimal($count, 0) : '' ;
                 },
             ],
+        ]);
+        return $this;
+    }
+
+    /**
+     * @return string $template
+     * @return mixed
+     */
+    public function actions($template = '{update} {delete}')
+    {
+        $this->columns = array_merge($this->columns, [
+            [
+                'class' => ActionColumn::className(),
+                'controller' => SELF::CONTROLLER,
+                'template' => $template,
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<i class="fa fa-pencil"></i>', false, ['value' => Url::to([SELF::CONTROLLER . '/update', 'id' => $model->id]), 'title' => 'Update Tenant', 'class' => 'showModalButton']);
+                    },
+                ],
+                'contentOptions' => ['class' => 'text-right'],
+            ]
         ]);
         return $this;
     }
