@@ -23,6 +23,8 @@ class UserController extends \yii\web\Controller
      */
     public function actionLogin()
     {
+        $this->layout = '@vendor/anli/yii2-metronic/views/layouts/login';
+
         $model = new LoginForm;
 
         $auth0 = $this->module->auth0;
