@@ -17,6 +17,7 @@ use Yii;
  */
 class UserController extends \yii\web\Controller
 {
+    
     /**
      * Login a user with auth0
      * @return mixed
