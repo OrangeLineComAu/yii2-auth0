@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ->nickname()
             ->email()
             ->tenants()
-            ->actions("{update-role-to-user} {remove-tenant}")
             ->all(),
     ]);?>
 
