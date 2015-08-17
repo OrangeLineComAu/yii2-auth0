@@ -41,8 +41,16 @@ class TenantController extends Controller
                'modelFullName' => self::MODEL_FULL_NAME,
                'noTenant' => true,
             ],
+            'import' => [
+                'class' => 'anli\helper\actions\ImportAction',
+                'importModelName' => '\anli\auth0\models\Tenant',
+                'attributes' => [
+                    'name' => 'name',
+                ],
+            ],
         ];
     }
+
     /**
      * Lists all Tenant models.
      * @return mixed

@@ -17,7 +17,7 @@ use Yii;
  * @since 1.1.0
  */
 class ServiceAdminController extends \yii\web\Controller
-{    
+{
     /**
      * See all users by service
      * @return mixed
