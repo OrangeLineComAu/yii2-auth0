@@ -48,6 +48,13 @@ class TenantController extends Controller
                     'name' => 'name',
                 ],
             ],
+            'export' => [
+				'class' => 'anli\helper\actions\ExportAction',
+				'query' => Tenant::find(),
+				'attributes' => [
+					'name' => 'name',
+				],
+			],
         ];
     }
 
