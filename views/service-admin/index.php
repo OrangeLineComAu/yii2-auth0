@@ -10,12 +10,24 @@ use yii\data\ActiveDataProvider;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
-
+use kartik\growl\Growl;
+use kartik\alert\AlertBlock;
 /* @var $this yii\web\View */
 
 $this->title = 'Service Admin';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>
+<!-- BEGIN Alert Block -->
+<?= AlertBlock::widget([
+        'delay' => 0,
+        'useSessionFlash' => true,
+        'type' => AlertBlock::TYPE_ALERT,
+    ]);
+?>
+<!-- END Alert Block -->
+
 <div class="row">
 
     <!-- BEGIN user portlet -->
@@ -38,13 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- BEGIN tenant portlet -->
     <div class="col-md-6">
-    <?php Pjax::begin(['options' => ['id' => 'container-pjax']]); ?>
+    <?php //Pjax::begin(['options' => ['id' => 'container-pjax']]); ?>
     <?php Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing  total users...',
         'buttons' => [
             Html::a('<i class="fa fa-plus"></i>', false, ['value' => Url::to(['tenant/create']), 'title' => 'Create Tenant', 'class' => 'showModalButton btn btn-circle green-haze btn-sm']),
             Html::a('<i class="fa fa-download"></i>', false, ['value' => Url::to(['tenant/import']), 'title' => 'Import Tenant', 'class' => 'showModalButton btn btn-circle blue btn-sm']),
             Html::a('<i class="fa fa-cloud-download"></i>', ['tenant/export'], ['title' => 'Export Tenant', 'class' => 'btn btn-circle yellow btn-sm', 'data-pjax' => 0]),
-            Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm', 'data-confirm' => 'Are you sure you want to delete all items?', 'data-method' => 'post', 'data-pjax' => 0]),                       
+            Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm', 'data-confirm' => 'Are you sure you want to delete all items?', 'data-method' => 'post', 'data-pjax' => 0]),
         ],
     ]); ?>
 
@@ -59,8 +71,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);?>
 
     <?php Portlet::end(); ?>
-    <?php Pjax::end(); ?>
+    <?php //Pjax::end(); ?>
     </div>
     <!-- END tenant portlet -->
 
 </div>
+<?php Pjax::end(); ?>

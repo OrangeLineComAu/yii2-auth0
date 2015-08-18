@@ -6,7 +6,7 @@ use anli\metronic\widgets\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use kartik\alert\AlertBlock;
 /* @var $this yii\web\View */
 /* @var $model anli\auth0\models\Tenant */
 
@@ -14,6 +14,14 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Tenants', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<!-- BEGIN Alert Block -->
+<?= AlertBlock::widget([
+        'delay' => 0,
+        'useSessionFlash' => true,
+        'type' => AlertBlock::TYPE_ALERT,
+    ]);
+?>
+<!-- END Alert Block -->
 <div class="row">
     <!-- BEGIN user portlet -->
     <div class="col-md-6">
