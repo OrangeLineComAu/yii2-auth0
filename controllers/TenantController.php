@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-
+use kartik\growl\Growl;
 /**
  * TenantController implements the CRUD actions for Tenant model.
  */
@@ -95,6 +95,9 @@ class TenantController extends Controller
         $model = new Tenant();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->refresh();
+
+            Yii::$app->getSession()->setFlash('success', 'You have created a tenant!');
              Yii::$app->response->format = Response::FORMAT_JSON;
              return [
                 'message' => 'successful',
@@ -105,7 +108,6 @@ class TenantController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return \yii\widgets\ActiveForm::validate($model);
         }
-
         return $this->renderAjax('create', [
             'model' => $model
         ]);
@@ -122,6 +124,8 @@ class TenantController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            Yii::$app->getSession()->setFlash('success', 'You have updated a tenant!');
              Yii::$app->response->format = Response::FORMAT_JSON;
              return [
                 'message' => 'successful',
@@ -147,6 +151,8 @@ class TenantController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        Yii::$app->getSession()->setFlash('success', 'You have deleted a tenant!');
         return $this->goBack();
     }
 
