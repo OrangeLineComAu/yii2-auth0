@@ -189,4 +189,28 @@ class TenantController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ActiveForm::validate($model);
     }
+
+    /**
+     * @param string
+     * @return string
+     */
+    public function actionDeleteCheckbox($keylist)
+    {
+        $keylist = explode(",", $keylist);
+
+        $count = count($keylist);
+
+        foreach ($keylist as $id) {
+            $this->findModel($id)->delete();
+        }
+
+        Yii::$app->getSession()->setFlash('success', "You have deleted $count tenant!");
+
+        return $this->goBack();
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+           'message' => $keylist,
+        ];
+    }
 }

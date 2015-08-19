@@ -2,6 +2,7 @@
 
 use anli\metronic\widgets\Portlet;
 use anli\metronic\widgets\GridView;
+use anli\metronic\widgets\ButtonGroup;
 use anli\auth0\models\ApiUser;
 use anli\auth0\models\Tenant;
 use yii\helpers\Html;
@@ -51,15 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- BEGIN tenant portlet -->
     <div class="col-md-6">
     <?php //Pjax::begin(['options' => ['id' => 'container-pjax']]); ?>
-    <?php Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing  total users...',
+    <?php
+    $checkboxButton =Html::a('<i class="fa fa-trash"></i> Delete selected', '#', ['title' => 'Delete Selected Tenant', 'class' => 'selectCheckboxButton', 'value-url' => 'http://localhost:8100/auth0/tenant/delete-checkbox', 'value-id' => 'tenant-gridview',]);
+    Portlet::begin(['id' => 'tenant-portlet', 'title' => 'Tenants', 'subtitle' => 'showing  total users...',
         'buttons' => [
             Html::a('<i class="fa fa-plus"></i>', false, ['value' => Url::to(['tenant/create']), 'title' => 'Create Tenant', 'class' => 'showModalButton btn btn-circle green-haze btn-sm']),
             Html::a('<i class="fa fa-download"></i>', false, ['value' => Url::to(['tenant/import']), 'title' => 'Import Tenant', 'class' => 'showModalButton btn btn-circle blue btn-sm']),
             Html::a('<i class="fa fa-cloud-download"></i>', ['tenant/export'], ['title' => 'Export Tenant', 'class' => 'btn btn-circle yellow btn-sm', 'data-pjax' => 0]),
             Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm', 'data-confirm' => 'Are you sure you want to delete all items?', 'data-method' => 'post', 'data-pjax' => 0]),
+            ButtonGroup::widget(['buttons' => [$checkboxButton]])
         ],
     ]); ?>
-
     <?= GridView::widget([
         'id' => 'tenant-gridview',
         'dataProvider' => new ActiveDataProvider(['query' => $tenantQuery, 'pagination' => ['pageSize' => 10,]]),
@@ -67,6 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ->nameWithLink()
             ->users()
             ->actions()
+            ->checkbox()
             ->all(),
     ]);?>
 

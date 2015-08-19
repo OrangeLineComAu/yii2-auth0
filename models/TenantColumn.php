@@ -101,4 +101,17 @@ class TenantColumn
         ]);
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function checkbox()
+    {
+        $this->columns = array_merge($this->columns, [
+            [
+                'class' => 'yii\grid\CheckboxColumn',
+            ],
+        ]);
+        return $this;
+    }
 }
