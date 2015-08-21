@@ -17,6 +17,7 @@ use kartik\alert\AlertBlock;
 
 $this->title = 'Service Admin';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['sidebarItems'] = Yii::$app->controller->module->sidebarItems;
 ?>
 
 <?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>

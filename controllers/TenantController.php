@@ -80,6 +80,8 @@ class TenantController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->user->setReturnUrl(['/' . $this->getRoute()]);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
