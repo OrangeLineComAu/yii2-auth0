@@ -271,4 +271,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(TenantUser::className(), ['user_id' => 'id']);
     }
+
+    /**
+     * @return mixed
+     */
+    public static function ByTenant()
+    {
+      return self::find()
+      ->joinWith('tenantUsers')
+      ->andWhere(['{{%tenant_user}}.tenant_id' => Yii::$app->tenant->identity->id]);
+    }
 }
