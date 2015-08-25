@@ -17,7 +17,7 @@ use Yii;
  */
 class UserController extends \yii\web\Controller
 {
-    
+
     /**
      * Login a user with auth0
      * @return mixed
@@ -32,7 +32,7 @@ class UserController extends \yii\web\Controller
 
         if ($auth0->getUser() && $auth0->validate()) {
             $model->login();
-            return $this->goHome();
+            return $this->goBack();
         }
 
         return $this->render('login', [
