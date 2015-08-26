@@ -84,10 +84,11 @@ class ApiUserColumn
     }
 
     /**
-     * @return string $template
+     * @param string $template
+     * @param mixed $params
      * @return mixed
      */
-    public function actions($template = '{update} {delete}')
+    public function actions($template = '{update} {delete}', $params = '')
     {
         $this->columns = array_merge($this->columns, [
             [
@@ -95,8 +96,8 @@ class ApiUserColumn
                 'controller' => SELF::CONTROLLER,
                 'template' => $template,
                 'buttons' => [
-                    'update-role-to-user' => function ($url, $model, $key) {
-                        return Html::a('<i class="fa fa-check"></i>', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'role' => 'user'], [
+                    'update-role-to-user' => function ($url, $model, $key) use ($params) {
+                        return Html::a('<i class="fa fa-check"></i>', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'tenantId' => $params, 'role' => 'user'], [
                             'title' => 'Add',
                             'data-toggle' => 'tooltip',
                         ]);

@@ -18,6 +18,11 @@ use Yii;
 class Module extends \yii\base\Module
 {
     /**
+     * @var array
+     */
+    public $adminEmails = [];
+
+    /**
      * @inheritdoc
      */
     public $layout = '@vendor/anli/yii2-metronic/views/layouts/main';
@@ -126,5 +131,13 @@ class Module extends \yii\base\Module
                 'url' => ['service-admin/index'],
             ],
         ];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsAdmin()
+    {
+        return in_array(Yii::$app->user->identity->email, $this->adminEmails);
     }
 }

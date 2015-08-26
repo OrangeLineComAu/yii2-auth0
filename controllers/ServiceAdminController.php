@@ -10,6 +10,7 @@ namespace anli\auth0\controllers;
 use anli\auth0\models\ApiUser;
 use anli\auth0\models\Tenant;
 use Yii;
+use yii\filters\AccessControl;
 
 /**
  * This is the ServiceAdmin controller class for Auth0.
@@ -18,6 +19,30 @@ use Yii;
  */
 class ServiceAdminController extends \yii\web\Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [
+                            'index',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->controller->module->isAdmin;
+                        }
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * See all users by service
      * @return mixed

@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use kartik\growl\Growl;
+use yii\filters\AccessControl;
+
 /**
  * TenantController implements the CRUD actions for Tenant model.
  */
@@ -28,6 +30,23 @@ class TenantController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [
+                            'delete-all', 'import', 'export',
+                            'view', 'create', 'update', 'delete',
+                            'ajax-validation', 'delete-checkbox',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->controller->module->isAdmin;
+                        }
+                    ],
                 ],
             ],
         ];
@@ -59,29 +78,14 @@ class TenantController extends Controller
     }
 
     /**
-     * Lists all Tenant models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new TenantSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Tenant model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        Yii::$app->user->setReturnUrl(['/' . $this->getRoute()]);
-        
+        Yii::$app->user->setReturnUrl(['/' . $this->getRoute(), 'id' => $id]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
