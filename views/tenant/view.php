@@ -35,7 +35,7 @@ $this->params['sidebarItems'] = Yii::$app->controller->module->sidebarItems;
             ->nickname()
             ->email()
             ->role($model->name)
-            ->actions("{update-role-to-user} {remove-tenant}", $model->id)
+            ->actions("{update-role-to-user} {update-role-to-admin} {remove-tenant}", $model->id)
             ->all(),
     ]);?>
 

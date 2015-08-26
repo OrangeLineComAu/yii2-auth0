@@ -98,7 +98,13 @@ class ApiUserColumn
                 'buttons' => [
                     'update-role-to-user' => function ($url, $model, $key) use ($params) {
                         return Html::a('<i class="fa fa-check"></i>', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'tenantId' => $params, 'role' => 'user'], [
-                            'title' => 'Add',
+                            'title' => 'Update to User',
+                            'data-toggle' => 'tooltip',
+                        ]);
+                    },
+                    'update-role-to-admin' => function ($url, $model, $key) use ($params) {
+                        return Html::a('<i class="fa fa-check-circle"></i>', [SELF::CONTROLLER . '/update-role', 'userId' => $model['user_id'], 'tenantId' => $params, 'role' => 'admin'], [
+                            'title' => 'Update to Admin',
                             'data-toggle' => 'tooltip',
                         ]);
                     },
