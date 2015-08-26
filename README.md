@@ -28,7 +28,8 @@ Update the `modules` section with:
 
     'auth0' => array_merge([
         'class' => 'anli\auth0\Module',
-    ], $auth0Configs),
+        'adminEmails' => ['anli@simbiosis.com.sg'],
+    ], require(__DIR__ . '/auth0-local.php')),
 
 Create a new file in `config/auth0-local.php`:
 
