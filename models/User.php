@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\ArrayHelper;
 
 /**
  * User model
@@ -243,5 +244,41 @@ class User extends ActiveRecord implements IdentityInterface
 
         print_r($user->getErrors());
         return false;
+    }
+
+    /**
+     * Generate an array for a select2 control.
+     * @return array
+     */
+    public static function select2Data()
+    {
+      $query = self::find()
+      ->joinWith('tenantUsers')
+      ->andWhere(['{{%tenant_user}}.tenant_id' => Yii::$app->tenant->identity->id])
+      ->select(['{{%user}}.id', 'username'])
+      ->orderBy('username');
+
+      $array = $query
+      ->asArray()->all();
+
+      return ArrayHelper::map($array,'id', 'username');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTenantUsers()
+    {
+        return $this->hasMany(TenantUser::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function ByTenant()
+    {
+      return self::find()
+      ->joinWith('tenantUsers')
+      ->andWhere(['{{%tenant_user}}.tenant_id' => Yii::$app->tenant->identity->id]);
     }
 }

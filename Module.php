@@ -8,6 +8,7 @@
 namespace anli\auth0;
 
 use anli\auth0\models\Auth0;
+use Yii;
 
 /**
  * This is the main module class.
@@ -17,9 +18,14 @@ use anli\auth0\models\Auth0;
 class Module extends \yii\base\Module
 {
     /**
+     * @var array
+     */
+    public $adminEmails = [];
+
+    /**
      * @inheritdoc
      */
-    public $layout = '@vendor/anli/yii2-auth0/views/layouts/main';
+    public $layout = '@vendor/anli/yii2-metronic/views/layouts/main';
 
     /**
      * @var string
@@ -71,6 +77,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+
+        Yii::$app->params['sidebarItems'] = $this->sidebarItems;
     }
 
     /**
@@ -110,5 +118,26 @@ class Module extends \yii\base\Module
         }
 
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSidebarItems()
+    {
+        return [
+            [
+                'label' => '<i class="glyphicon glyphicon-home"></i><span class="title">Service Admin</span>',
+                'url' => ['service-admin/index'],
+            ],
+        ];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsAdmin()
+    {
+        return in_array(Yii::$app->user->identity->email, $this->adminEmails);
     }
 }

@@ -28,7 +28,8 @@ Update the `modules` section with:
 
     'auth0' => array_merge([
         'class' => 'anli\auth0\Module',
-    ], $auth0Configs),
+        'adminEmails' => ['anli@simbiosis.com.sg'],
+    ], require(__DIR__ . '/auth0-local.php')),
 
 Create a new file in `config/auth0-local.php`:
 
@@ -72,7 +73,7 @@ Update the `components` section in the config with:
         'loginUrl' => ['auth0/user/login'],
     ],
     'tenant' => [
-        'class' => 'anli\auth0\models\Tenant',
+        'class' => 'anli\auth0\components\Tenant',
     ],
 
 Usage
@@ -89,6 +90,14 @@ To show the login user, use:
 To show the login tenant, use:
 
     Html::encode(Yii::$app->tenant->identity->name);
+
+To auto update the tenant_id, add to the `behaviors` section of your model with:
+
+    use anli\auth0\behaviors\TenantBehavior;
+    ...
+    'tenant' => [
+        'class' => TenantBehavior::className(),
+    ],
 
 FAQs
 -----

@@ -7,12 +7,14 @@
 
 namespace anli\auth0\controllers;
 
+use anli\auth0\models\Tenant;
 use anli\auth0\models\User;
 use anli\auth0\models\TenantUser;
 use anli\auth0\models\ApiUser;
 use Auth0\SDK\API\ApiUsers;
 use Yii;
 use yii\web\HttpException;
+use yii\filters\AccessControl;
 
 /**
  * This is the controller class for the API User model.
@@ -22,18 +24,50 @@ use yii\web\HttpException;
 class ApiUserController extends \yii\web\Controller
 {
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [
+                            'update-role', 'remove-tenant', 'update',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->controller->module->isAdmin;
+                        }
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @param string $userId
      * @param string $role
+     * @param string $tenantId
      * @return mixed
      */
-    public function actionUpdateRole($userId, $role = 'user')
+    public function actionUpdateRole($userId, $role = 'user', $tenantId = null)
     {
+        if (!isset($tenantId)) {
+            $tenant = Yii::$app->tenant->identity;
+        } else {
+            $tenant = Tenant::findOne($tenantId);
+        }
+
+        //return print_r($tenant->name);
         $model = ApiUser::findOne($userId);
 
         $data = [
             'app_metadata' => ['permissions' => [
                     Yii::$app->getModule('auth0')->serviceId => [
-                        Yii::$app->tenant->identity->name => ['role' => $role],
+                        $tenant->name => ['role' => $role],
                     ],
             ],],
         ];
@@ -43,7 +77,7 @@ class ApiUserController extends \yii\web\Controller
 
                 if ($this->update($userId, array_replace_recursive(['app_metadata' => $model['app_metadata']], $data))) {
                     $user = User::findByAuth0($model);
-                    $tenantUser = TenantUser::findByTenantUser(Yii::$app->tenant->identity, $user);
+                    $tenantUser = TenantUser::findByTenantUser($tenant, $user);
 
                     $msg = 'Successful updated a role';
                     return $this->goBack();
@@ -53,7 +87,7 @@ class ApiUserController extends \yii\web\Controller
 
             if ($this->update($userId, $data)) {
                 $user = User::findByAuth0($model);
-                $tenantUser = TenantUser::findByTenantUser(Yii::$app->tenant->identity, $user);
+                $tenantUser = TenantUser::findByTenantUser($tenant, $user);
 
                 $msg = 'Successfully added a role';
                 return $this->goBack();

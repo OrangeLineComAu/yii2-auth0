@@ -17,19 +17,22 @@ use Yii;
  */
 class UserController extends \yii\web\Controller
 {
+
     /**
      * Login a user with auth0
      * @return mixed
      */
     public function actionLogin()
     {
+        $this->layout = '@vendor/anli/yii2-metronic/views/layouts/login';
+
         $model = new LoginForm;
 
         $auth0 = $this->module->auth0;
 
         if ($auth0->getUser() && $auth0->validate()) {
             $model->login();
-            return $this->goHome();
+            return $this->goBack();
         }
 
         return $this->render('login', [
@@ -46,15 +49,5 @@ class UserController extends \yii\web\Controller
         $this->module->auth0->logout();
         Yii::$app->user->logout();
         return $this->goHome();
-    }
-
-    /**
-     * Logout a user with auth0
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        return $this->render('index', [
-        ]);
     }
 }
