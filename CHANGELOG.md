@@ -1,6 +1,16 @@
 CHANGELOG
 =====
 
+1.3.0 [28 Aug 2015]
+-----
+
+* `enh` Added user select2Data function
+* `enh` Added tenant function
+* `chg` Changed login action with `goBack()` function
+* `enh` Added access control to controller
+* `enh` Added documentation on admin email configuration
+* `enh` Added update user feature to admin
+
 1.2.0 [19 Aug 2015]
 -----
 
