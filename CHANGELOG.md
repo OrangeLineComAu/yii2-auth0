@@ -1,6 +1,12 @@
 CHANGELOG
 =====
 
+1.4.0 [31 Aug 2015]
+-----
+
+* `enh` Added validate tenant function to auth0 model
+
+
 1.3.0 [28 Aug 2015]
 -----
 
