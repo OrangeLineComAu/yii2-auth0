@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.5.0 [1 Sep 2015]
+-----
+
+* `chg` Changed sidebar to web service params
+
 1.3.0 [28 Aug 2015]
 -----
 
