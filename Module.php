@@ -71,14 +71,13 @@ class Module extends \yii\base\Module
      * @var array
      */
     public $apiTokens = [];
+
     /**
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
-
-        Yii::$app->params['sidebarItems'] = $this->sidebarItems;
     }
 
     /**
@@ -118,19 +117,6 @@ class Module extends \yii\base\Module
         }
 
         return null;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getSidebarItems()
-    {
-        return [
-            [
-                'label' => '<i class="glyphicon glyphicon-home"></i><span class="title">Service Admin</span>',
-                'url' => ['service-admin/index'],
-            ],
-        ];
     }
 
     /**
