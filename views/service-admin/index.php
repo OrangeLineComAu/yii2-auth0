@@ -20,17 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
 
-<?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>
-<!-- BEGIN Alert Block -->
-<?= AlertBlock::widget([
-        'delay' => 0,
-        'useSessionFlash' => true,
-        'type' => AlertBlock::TYPE_ALERT,
-    ]);
-?>
-<!-- END Alert Block -->
-
 <div class="row">
+<?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>
 
     <!-- BEGIN user portlet -->
     <div class="col-md-6">
@@ -61,7 +52,6 @@ $this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
             Html::a('<i class="fa fa-download"></i>', false, ['value' => Url::to(['tenant/import']), 'title' => 'Import Tenant', 'class' => 'showModalButton btn btn-circle blue btn-sm']),
             Html::a('<i class="fa fa-cloud-download"></i>', ['tenant/export'], ['title' => 'Export Tenant', 'class' => 'btn btn-circle yellow btn-sm', 'data-pjax' => 0]),
             Html::a('<i class="fa fa-trash"></i>', ['tenant/delete-all'], ['title' => 'Delete All Tenant', 'class' => 'btn btn-circle red btn-sm', 'data-confirm' => 'Are you sure you want to delete all items?', 'data-method' => 'post', 'data-pjax' => 0]),
-            ButtonGroup::widget(['buttons' => [$checkboxButton]])
         ],
     ]); ?>
     <?= GridView::widget([
@@ -71,7 +61,6 @@ $this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
             ->nameWithLink()
             ->users()
             ->actions()
-            ->checkbox()
             ->all(),
     ]);?>
 
@@ -80,5 +69,5 @@ $this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
     </div>
     <!-- END tenant portlet -->
 
-</div>
 <?php Pjax::end(); ?>
+</div>

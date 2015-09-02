@@ -1,10 +1,21 @@
 CHANGELOG
 =====
 
+1.6.0 [2 Sep 2015]
+-----
+
+* `enh` Added change tenant feature
+* `bug` Fixed bug to refresh service admin page correctly after tenant create or update
+
 1.5.0 [1 Sep 2015]
 -----
 
 * `chg` Changed sidebar to web service params
+
+1.4.0 [31 Aug 2015]
+-----
+
+* `enh` Added validate tenant function to auth0 model
 
 1.3.0 [28 Aug 2015]
 -----

@@ -3,6 +3,7 @@
 namespace anli\auth0\controllers;
 
 use anli\auth0\models\Tenant;
+use anli\auth0\models\TenantLoginForm;
 use anli\auth0\models\TenantSearch;
 use Yii;
 use yii\web\Controller;
@@ -47,6 +48,13 @@ class TenantController extends Controller
                             return Yii::$app->controller->module->isAdmin;
                         }
                     ],
+                    [
+                        'actions' => [
+                            'login',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -74,6 +82,14 @@ class TenantController extends Controller
 					'name' => 'name',
 				],
 			],
+            'update' => [
+                'class' => 'anli\helper\actions\UpdateAction',
+                'model' => Tenant::findOne(Yii::$app->getRequest()->getQueryParam('id')),
+            ],
+            'create' => [
+                'class' => 'anli\helper\actions\CreateAction',
+                'model' => new Tenant,
+            ],
         ];
     }
 
@@ -89,64 +105,7 @@ class TenantController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Tenant model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Tenant();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->refresh();
-
-            Yii::$app->getSession()->setFlash('success', 'You have created a tenant!');
-             Yii::$app->response->format = Response::FORMAT_JSON;
-             return [
-                'message' => 'successful',
-             ];
-        }
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return \yii\widgets\ActiveForm::validate($model);
-        }
-        return $this->renderAjax('create', [
-            'model' => $model
-        ]);
-    }
-
-    /**
-     * Updates an existing Tenant model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            Yii::$app->getSession()->setFlash('success', 'You have updated a tenant!');
-             Yii::$app->response->format = Response::FORMAT_JSON;
-             return [
-                'message' => 'successful',
-             ];
-        }
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return \yii\widgets\ActiveForm::validate($model);
-        }
-
-        return $this->renderAjax('update', [
-            'model' => $model
-        ]);
-    }
+    }    
 
     /**
      * Deletes an existing Tenant model.
@@ -218,5 +177,28 @@ class TenantController extends Controller
         return [
            'message' => $keylist,
         ];
+    }
+
+    /**
+     * Login Tenant model.
+     * If creation is successful, the browser will be redirected back
+     * @return mixed
+     */
+    public function actionLogin()
+    {
+        $model = new TenantLoginForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        return $this->renderAjax('login', [
+            'model' => $model,
+        ]);
     }
 }

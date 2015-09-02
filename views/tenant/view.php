@@ -4,6 +4,7 @@ use anli\auth0\models\ApiUser;
 use anli\metronic\widgets\Portlet;
 use anli\metronic\widgets\GridView;
 use yii\data\ArrayDataProvider;
+use yii\widgets\Pjax;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\alert\AlertBlock;
@@ -13,17 +14,11 @@ use kartik\alert\AlertBlock;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Tenants', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebarItems'] = Yii::$app->controller->module->sidebarItems;
+$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
-<!-- BEGIN Alert Block -->
-<?= AlertBlock::widget([
-        'delay' => 0,
-        'useSessionFlash' => true,
-        'type' => AlertBlock::TYPE_ALERT,
-    ]);
-?>
-<!-- END Alert Block -->
 <div class="row">
+<?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>
+
     <!-- BEGIN user portlet -->
     <div class="col-md-6">
     <?php Portlet::begin(['id' => 'user-portlet', 'title' => 'Users Permission', 'subtitle' => 'for this tenant...' ]); ?>
@@ -42,4 +37,6 @@ $this->params['sidebarItems'] = Yii::$app->controller->module->sidebarItems;
     <?php Portlet::end(); ?>
     </div>
     <!-- END user portlet -->
+
+<?php Pjax::end(); ?>
 </div>
