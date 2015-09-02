@@ -7,6 +7,8 @@
 
 namespace anli\auth0\models;
 
+use Yii;
+
 /**
  * This is the ActiveQuery class for [[Tenant]].
  *
@@ -32,5 +34,20 @@ class TenantQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    /**
+     * @param integer
+     * @return mixed
+     */
+    public function byUser($id = '')
+    {
+        if (0 < $id) {
+            return $this->joinWith('tenantUsers')
+                ->andWhere(['user_id' => $id]);
+        }
+
+        return $this->joinWith('tenantUsers')
+            ->andWhere(['user_id' => Yii::$app->user->id]);
     }
 }

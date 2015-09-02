@@ -13,7 +13,7 @@ use kartik\alert\AlertBlock;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Tenants', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebarItems'] = Yii::$app->controller->module->sidebarItems;
+$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
 <!-- BEGIN Alert Block -->
 <?= AlertBlock::widget([

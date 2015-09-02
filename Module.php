@@ -9,6 +9,7 @@ namespace anli\auth0;
 
 use anli\auth0\models\Auth0;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the main module class.

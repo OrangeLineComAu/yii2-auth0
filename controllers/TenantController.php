@@ -3,6 +3,7 @@
 namespace anli\auth0\controllers;
 
 use anli\auth0\models\Tenant;
+use anli\auth0\models\TenantLoginForm;
 use anli\auth0\models\TenantSearch;
 use Yii;
 use yii\web\Controller;
@@ -46,6 +47,13 @@ class TenantController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             return Yii::$app->controller->module->isAdmin;
                         }
+                    ],
+                    [
+                        'actions' => [
+                            'login',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -218,5 +226,28 @@ class TenantController extends Controller
         return [
            'message' => $keylist,
         ];
+    }
+
+    /**
+     * Login Tenant model.
+     * If creation is successful, the browser will be redirected back
+     * @return mixed
+     */
+    public function actionLogin()
+    {
+        $model = new TenantLoginForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        return $this->renderAjax('login', [
+            'model' => $model,
+        ]);
     }
 }

@@ -42,6 +42,21 @@ class Auth0 extends \Auth0\SDK\Auth0
     }
 
     /**
+     * @param string $tenantName
+     * @return boolean Return true if the login is validated
+     * @throws \yii\web\HttpException
+     */
+    public function validateTenant($tenantName)
+    {
+        if (!in_array($tenantName, $this->getTenants())) {
+            $this->logout();
+            throw new \yii\web\HttpException(400, 'Not authorized to use this tenant', 405);
+        }
+
+        return true;
+    }
+
+    /**
      * @return string
      */
     public function getDefaultTenant()
