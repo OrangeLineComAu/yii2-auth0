@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.6.1 [2 Sep 2015]
+-----
+
+* `bug` Fixed bug to use the latest stable version of yii2-metronic and yii2-helper
+
 1.6.0 [2 Sep 2015]
 -----
 
