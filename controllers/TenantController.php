@@ -82,6 +82,14 @@ class TenantController extends Controller
 					'name' => 'name',
 				],
 			],
+            'update' => [
+                'class' => 'anli\helper\actions\UpdateAction',
+                'model' => Tenant::findOne(Yii::$app->getRequest()->getQueryParam('id')),
+            ],
+            'create' => [
+                'class' => 'anli\helper\actions\CreateAction',
+                'model' => new Tenant,
+            ],
         ];
     }
 
@@ -97,64 +105,7 @@ class TenantController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Tenant model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Tenant();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->refresh();
-
-            Yii::$app->getSession()->setFlash('success', 'You have created a tenant!');
-             Yii::$app->response->format = Response::FORMAT_JSON;
-             return [
-                'message' => 'successful',
-             ];
-        }
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return \yii\widgets\ActiveForm::validate($model);
-        }
-        return $this->renderAjax('create', [
-            'model' => $model
-        ]);
-    }
-
-    /**
-     * Updates an existing Tenant model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            Yii::$app->getSession()->setFlash('success', 'You have updated a tenant!');
-             Yii::$app->response->format = Response::FORMAT_JSON;
-             return [
-                'message' => 'successful',
-             ];
-        }
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && isset($_POST['ajax'])) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return \yii\widgets\ActiveForm::validate($model);
-        }
-
-        return $this->renderAjax('update', [
-            'model' => $model
-        ]);
-    }
+    }    
 
     /**
      * Deletes an existing Tenant model.
