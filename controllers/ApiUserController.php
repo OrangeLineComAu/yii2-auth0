@@ -102,15 +102,25 @@ class ApiUserController extends \yii\web\Controller
      * @param string $userId
      * @return mixed
      */
-    public function actionRemoveTenant($userId)
+    public function actionRemoveTenant($userId, $tenantId = null)
     {
+        if (!isset($tenantId)) {
+            $tenant = Yii::$app->tenant->identity;
+        } else {
+            $tenant = Tenant::findOne($tenantId);
+        }
+
         $model = ApiUser::findOne($userId);
 
         if ($model) {
             $data = ['app_metadata' => $model['app_metadata']];
-            unset($data['app_metadata']['permissions']['customer']['Spark Web Pte Ltd']);
+            unset($data['app_metadata']['permissions'][Yii::$app->getModule('auth0')->serviceId][$tenant->name]);
 
             if ($this->update($userId, $data)) {
+                $user = User::findByAuth0($model);
+                $tenantUser = TenantUser::findByTenantUser($tenant, $user);
+                $tenantUser->delete();
+
                 $msg = 'Successfully removed the selected user from the current tenant';
                 return $this->goBack();
             };

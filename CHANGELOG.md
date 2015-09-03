@@ -1,6 +1,12 @@
 CHANGELOG
 =====
 
+1.7.0 [3 Sep 2015]
+-----
+
+* `bug` Fixed bug to remove tenant correctly from Auth0 AppMetadata
+* `enh` Added UserQuery
+
 1.6.1 [2 Sep 2015]
 -----
 
