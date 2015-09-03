@@ -219,31 +219,53 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function createFromAuth0($auth0Data)
     {
-        $model = new self([
-            'username' => $auth0Data['nickname'],
-            'email' => $auth0Data['email'],
-            'password' => Yii::$app->security->generateRandomString(6),
-        ]);
-        $model->generateAuthKey();
-        $model->generatePasswordResetToken();
-        $transaction = $model->getDb()->beginTransaction();
-        if ($model->save()) {
+        // check is email taken
+
+        $query = User::find()
+        ->andWhere(['email' => $auth0Data['email']]);
+
+        if ($query->exists()) {
+            $model = $query->one();
+
             $auth = new Auth([
                 'user_id' => $model->id,
                 'source' => 'auth0',
                 'source_id' => (string)$auth0Data['user_id'],
             ]);
             if ($auth->save()) {
-                $transaction->commit();
                 return $model;
             }
 
             print_r($auth->getErrors());
             return false;
-        }
 
-        print_r($user->getErrors());
-        return false;
+        } else {
+            $model = new self([
+                'username' => $auth0Data['nickname'],
+                'email' => $auth0Data['email'],
+                'password' => Yii::$app->security->generateRandomString(6),
+            ]);
+            $model->generateAuthKey();
+            $model->generatePasswordResetToken();
+            $transaction = $model->getDb()->beginTransaction();
+            if ($model->save()) {
+                $auth = new Auth([
+                    'user_id' => $model->id,
+                    'source' => 'auth0',
+                    'source_id' => (string)$auth0Data['user_id'],
+                ]);
+                if ($auth->save()) {
+                    $transaction->commit();
+                    return $model;
+                }
+
+                print_r($auth->getErrors());
+                return false;
+            }
+
+            print_r($user->getErrors());
+            return false;
+        }
     }
 
     /**
@@ -280,5 +302,14 @@ class User extends ActiveRecord implements IdentityInterface
       return self::find()
       ->joinWith('tenantUsers')
       ->andWhere(['{{%tenant_user}}.tenant_id' => Yii::$app->tenant->identity->id]);
+    }
+
+    /**
+     * @inheritdoc
+     * @return TimesheetQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 }
