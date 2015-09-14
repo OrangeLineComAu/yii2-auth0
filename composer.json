@@ -1,0 +1,26 @@
+{
+    "name": "anli/yii2-auth0",
+    "description": "Yii2 Auth0",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Su Anli",
+            "email": "anli@euqol.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "auth0/auth0-php": "~1.0",
+        "adoy/oauth2": "dev-master",
+        "firebase/php-jwt" : "v2.2.0",
+        "anli/yii2-metronic": "*",
+        "anli/yii2-helper": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "anli\\auth0\\": ""
+        }
+    }
+}
