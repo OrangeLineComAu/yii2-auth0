@@ -71,7 +71,8 @@ class Auth0Lock extends Widget
 
             lock.show({
                 focusInput: true,
-                rememberLastLogin: false,
+                rememberLastLogin: true,
+                sso: true,
                 container: 'root'
               , callbackURL: '{$this->redirectUrl}'
               , responseType: 'code'
