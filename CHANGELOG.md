@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.8.0 [17 Sep 2015]
+-----
+
+* `enh` Added image url function
+
 1.7.0 [3 Sep 2015]
 -----
 
