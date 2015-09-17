@@ -74,6 +74,11 @@ class Module extends \yii\base\Module
     public $apiTokens = [];
 
     /**
+     * @var string
+     */
+    public $rememberLastLogin = 'false';
+
+    /**
      * @inheritdoc
      */
     public function init()
