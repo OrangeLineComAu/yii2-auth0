@@ -1,6 +1,7 @@
 <?php
 namespace anli\auth0\models;
 
+use anli\helper\models\Gravatar;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -311,5 +312,19 @@ class User extends ActiveRecord implements IdentityInterface
     public static function find()
     {
         return new UserQuery(get_called_class());
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        $model = new Gravatar;
+        $model->email = $this->email;
+
+        $letter = substr($this->username, 0, 2);
+        $model->default = "https://cdn.auth0.com/avatars/jo.png";
+        
+        return $model->imageUrl;
     }
 }
