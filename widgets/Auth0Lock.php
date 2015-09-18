@@ -66,16 +66,19 @@ class Auth0Lock extends Widget
      */
     protected function getJs()
     {
+        $rememberLastLogin = Yii::$app->getModule('auth0')->rememberLastLogin;
+
         return <<< JS
             var lock = new Auth0Lock('{$this->clientId}', '{$this->domain}');
 
             lock.show({
                 focusInput: true,
-                rememberLastLogin: false,
-                container: 'root'
-              , callbackURL: '{$this->redirectUrl}'
-              , responseType: 'code'
-              , authParams: {
+                rememberLastLogin: {$rememberLastLogin},
+                sso: true,
+                container: 'root',
+                callbackURL: '{$this->redirectUrl}',
+                responseType: 'code',
+                authParams: {
                   scope: 'openid profile'
                   }
             });
