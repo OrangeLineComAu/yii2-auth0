@@ -48,7 +48,6 @@ class UserQuery extends \yii\db\ActiveQuery
     {
         return $this->joinWith('tenantUsers')
             ->andWhere(['{{%tenant_user}}.tenant_id' => Yii::$app->tenant->identity->id]);
-        return $this->andWhere(["$this->tableName.tenant_id" => Yii::$app->tenant->identity->id]);
     }
 
     /**

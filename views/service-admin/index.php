@@ -17,7 +17,7 @@ use kartik\alert\AlertBlock;
 
 $this->title = 'Service Admin';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
+//$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
 
 <div class="row">
