@@ -14,7 +14,7 @@ use kartik\alert\AlertBlock;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Tenants', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
+//$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
 <div class="row">
 <?php Pjax::begin(['id' => 'container-pjax', 'timeout' => false]); ?>

@@ -13,7 +13,7 @@ use yii\web\JsExpression;
 
 $this->title = 'Change Tenant';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
+//$this->params['sidebarItems'] = Yii::$app->params['sidebarItems'];
 ?>
 
 <div class="tenant-login-form">

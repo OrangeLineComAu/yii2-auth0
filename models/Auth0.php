@@ -50,7 +50,11 @@ class Auth0 extends \Auth0\SDK\Auth0
     {
         if (!in_array($tenantName, $this->getTenants())) {
             $this->logout();
-            throw new \yii\web\HttpException(400, 'Not authorized to use this tenant', 405);
+            throw new \yii\web\HttpException(400, 'Not authorized to use this tenant: '
+                . $tenantName
+                . ' not found in '
+                . var_dump($this->getTenants())
+            , 405);
         }
 
         return true;

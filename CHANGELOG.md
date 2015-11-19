@@ -1,6 +1,17 @@
 CHANGELOG
 =====
 
+1.10.0 [11 Nov 2015]
+-----
+
+* `bug` Fixed bug to display sidebar correctly.
+
+1.9.0 [18 Sep 2015]
+-----
+
+* `chg` Changed rememberLastLogin settings
+
+
 1.8.0 [17 Sep 2015]
 -----
 
