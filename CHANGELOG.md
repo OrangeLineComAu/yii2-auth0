@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.10.1 [9 Dec 2015]
+-----
+
+* `bug` Fixed bug to display auth0 lock correctly with latest version of chrome
+
 1.10.0 [11 Nov 2015]
 -----
 
