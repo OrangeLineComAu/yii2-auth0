@@ -24,7 +24,7 @@ class TenantBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_BEFORE_INSERT => 'updateTenantId',
+            ActiveRecord::EVENT_BEFORE_VALIDATE => 'updateTenantId',
         ];
     }
 

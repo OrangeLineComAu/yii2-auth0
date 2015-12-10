@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.10.2 [10 Dec 2015]
+-----
+
+* `bug` Fixed bug to allow unique validator based on tenant id to work correctly
+
 1.10.1 [9 Dec 2015]
 -----
 
