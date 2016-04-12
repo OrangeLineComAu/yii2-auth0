@@ -1,6 +1,11 @@
 CHANGELOG
 =====
 
+1.11.0 [12 Apr 2015]
+-----
+
+* `enh` Added search by email manual feature
+
 1.10.2 [10 Dec 2015]
 -----
 
