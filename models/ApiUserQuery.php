@@ -66,4 +66,10 @@ class ApiUserQuery
         $this->params['sort'] = $order;
         return $this;
     }
+
+    public function email($email)
+    {
+        $this->params['q'] = "email:*{$email}*";
+        return $this;
+    }
 }
