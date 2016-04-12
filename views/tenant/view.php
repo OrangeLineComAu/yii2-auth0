@@ -25,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'id' => 'user-gridview',
-        'dataProvider' => new ArrayDataProvider(['allModels' => ApiUser::find()->orderBy('email:1')->all(), 'pagination' => ['pageSize' => 10,]]),
+        'dataProvider' => new ArrayDataProvider(['allModels' => ApiUser::find()
+          ->email('')
+          ->orderBy('email:1')->all(), 'pagination' => ['pageSize' => 10,]]),
         'columns' => ApiUser::column()
             ->nickname()
             ->email()
