@@ -33,6 +33,11 @@ class Auth0Lock extends Widget
     public $domain = '';
 
     /**
+     * @var string
+     */
+    public $icon = '';
+
+    /**
      * @var boolean
      */
     public $redirectUrl = '';
@@ -47,6 +52,7 @@ class Auth0Lock extends Widget
        $this->clientId = Yii::$app->getModule('auth0')->clientId;
        $this->domain = Yii::$app->getModule('auth0')->domain;
        $this->redirectUrl = Yii::$app->getModule('auth0')->redirectUrl;
+       $this->icon = Yii::$app->getModule('auth0')->icon;
 
        Auth0LockAsset::register($this->getView());
        $this->getView()->registerJs($this->js);
@@ -80,7 +86,12 @@ class Auth0Lock extends Widget
                 responseType: 'code',
                 authParams: {
                   scope: 'openid profile'
-                  }
+                },
+                icon:  '{$this->icon}'
+                , disableSignupAction: true
+                , sso: true
+                , mode : "signin"
+                , gravatar : true
             });
 JS;
     }

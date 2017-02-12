@@ -46,6 +46,11 @@ class Module extends \yii\base\Module
     /**
      * @var string
      */
+    public $icon = '';
+
+    /**
+     * @var string
+     */
     public $clientId = '';
 
     /**
@@ -96,8 +101,10 @@ class Module extends \yii\base\Module
             'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
             'redirect_uri'  => $this->redirectUrl,
+            'icon'  => $this->icon,
             'persist_id_token' => $this->persistIdToken,
             'persist_access_token' => $this->persistAccessToken,
+            'debug' => true,
         ]);
     }
 

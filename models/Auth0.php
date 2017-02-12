@@ -22,6 +22,7 @@ class Auth0 extends \Auth0\SDK\Auth0
      */
     public function validate()
     {
+        Yii::trace("in validate");
         if (!isset($this->getUser()['app_metadata'])) {
             $this->logout();
             throw new \yii\web\HttpException(400, 'No app meta data', 405);
@@ -31,13 +32,16 @@ class Auth0 extends \Auth0\SDK\Auth0
             $this->logout();
             throw new \yii\web\HttpException(400, 'Not authorized to use this service', 405);
         }
-
+/*
+        Yii::trace($this->getPermissions());
+        Yii::trace($this->getServiceIds());
+        Yii::trace($this->getTenants());
+        */
         if (0 == count($this->getTenants())) {
             $this->logout();
             Yii::$app->user->logout();
             throw new \yii\web\HttpException(400, 'No tenant assigned', 405);
         }
-
         return true;
     }
 
@@ -81,6 +85,7 @@ class Auth0 extends \Auth0\SDK\Auth0
      */
     public function getServiceIds()
     {
+      //Yii::trace(array_keys($this->getPermissions()));
         return array_keys($this->getPermissions());
     }
 
@@ -90,6 +95,8 @@ class Auth0 extends \Auth0\SDK\Auth0
     public function getTenants()
     {
         if (isset($this->getPermissions()[$this->getServiceId()])) {
+
+            //Yii::trace(array_keys($this->getPermissions()[$this->getServiceId()]));
             return array_keys($this->getPermissions()[$this->getServiceId()]);
         }
 
@@ -103,4 +110,5 @@ class Auth0 extends \Auth0\SDK\Auth0
     {
         return Yii::$app->getModule('auth0')->serviceId;
     }
+
 }

@@ -41,10 +41,10 @@ class LoginForm extends Model
      */
     public function login()
     {
-        Yii::$app->user->login($this->getUser());
-        Yii::$app->tenant->login($this->getTenant());
-
-        return true;
+      Yii::trace("login in LoginForm",  __METHOD__);
+      Yii::$app->user->login($this->getUser(),60 * 60 * 24 * 7);
+      Yii::$app->tenant->login($this->getTenant());
+      return true; 
     }
 
 

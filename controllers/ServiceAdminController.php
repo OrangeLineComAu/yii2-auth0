@@ -33,7 +33,7 @@ class ServiceAdminController extends \yii\web\Controller
                             'index',
                         ],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'], 
                         'matchCallback' => function ($rule, $action) {
                             return Yii::$app->controller->module->isAdmin;
                         }
