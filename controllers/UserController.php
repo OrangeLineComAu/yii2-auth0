@@ -29,7 +29,7 @@ class UserController extends \yii\web\Controller
           session_set_cookie_params(60 * 60 * 24 * 7); //seven days
           session_start();
       }
-        $this->layout = '@vendor/anli/yii2-metronic/views/layouts/login';
+        $this->layout = $this->module->layout;
         Yii::trace("in actionLogin",  __METHOD__);
         $model = new LoginForm;
 
