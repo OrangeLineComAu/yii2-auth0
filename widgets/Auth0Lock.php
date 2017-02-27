@@ -64,7 +64,15 @@ class Auth0Lock extends Widget
      */
     public function run()
     {
-        echo Html::tag('div', '', ['id' => 'root', 'style' => "width: 280px; margin: 40px auto; padding: 10px; border-width: 1px;"]);
+        // custom logo 
+        echo Html::img('/images/logo.svg', ['class' => 'login-logo', 'alt' => 'My logo']);
+        //echo '<h2 class="login-heading">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h2>';
+
+        // original auth0 wrapper
+        echo Html::tag('div', '', ['id' => 'root', 'class' => 'login-widget']);
+        
+        //custom footer
+        echo '<footer class="login-footer"><a href="#">Sign up</a></footer>';
     }
 
     /**
