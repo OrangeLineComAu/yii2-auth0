@@ -84,6 +84,11 @@ class Module extends \yii\base\Module
     public $rememberLastLogin = 'false';
 
     /**
+     * @var string URL for signup link
+     */
+    public $signupUrl;
+
+    /**
      * @inheritdoc
      */
     public function init()

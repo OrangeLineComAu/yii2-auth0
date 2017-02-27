@@ -43,16 +43,23 @@ class Auth0Lock extends Widget
     public $redirectUrl = '';
 
     /**
+     * @var string URL for signup link
+     */
+    public $signupUrl = '';
+
+    /**
      * Initializes the widget.
      */
     public function init()
     {
        parent::init();
 
-       $this->clientId = Yii::$app->getModule('auth0')->clientId;
-       $this->domain = Yii::$app->getModule('auth0')->domain;
-       $this->redirectUrl = Yii::$app->getModule('auth0')->redirectUrl;
-       $this->icon = Yii::$app->getModule('auth0')->icon;
+       $module = Yii::$app->getModule('auth0');
+       $this->clientId = $module->clientId;
+       $this->domain = $module->domain;
+       $this->redirectUrl = $module->redirectUrl;
+       $this->icon = $module->icon;
+       $this->signupUrl = $module->signupUrl;
 
        Auth0LockAsset::register($this->getView());
        $this->getView()->registerJs($this->js);
@@ -72,7 +79,7 @@ class Auth0Lock extends Widget
         echo Html::tag('div', '', ['id' => 'root', 'class' => 'login-widget']);
         
         //custom footer
-        echo '<footer class="login-footer"><a href="#">Sign up</a></footer>';
+        echo "<footer class=\"login-footer\"><a href=\"$this->signupUrl\">Sign up</a></footer>";
     }
 
     /**
