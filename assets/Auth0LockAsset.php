@@ -20,6 +20,6 @@ class Auth0LockAsset extends AssetBundle
      * @inheritdoc
      */
     public $js = [
-        'https://cdn.auth0.com/js/lock-7.min.js',
+        'https://cdn.auth0.com/js/lock-9.2.1.min.js',
     ];
 }
