@@ -48,6 +48,11 @@ class Auth0Lock extends Widget
     public $signupUrl = '';
 
     /**
+     * @var string Text to use for signin link
+     */
+    public $signinText = 'Login';
+
+    /**
      * Initializes the widget.
      */
     public function init()
@@ -60,6 +65,7 @@ class Auth0Lock extends Widget
        $this->redirectUrl = $module->redirectUrl;
        $this->icon = $module->icon;
        $this->signupUrl = $module->signupUrl;
+       $this->signinText = $module->signinText;
 
        Auth0LockAsset::register($this->getView());
        $this->getView()->registerJs($this->js);
@@ -92,7 +98,7 @@ class Auth0Lock extends Widget
         return <<< JS
             var lock = new Auth0Lock('{$this->clientId}', '{$this->domain}');
 
-            lock.show({
+            var opts = {
                 focusInput: true,
                 rememberLastLogin: {$rememberLastLogin},
                 sso: true,
@@ -107,7 +113,10 @@ class Auth0Lock extends Widget
                 , sso: true
                 , mode : "signin"
                 , gravatar : true
-            });
+                , dict: $.extend(lock.\$dicts.en, { signin: $.extend(lock.\$dicts.en.signin, { action: '$this->signinText' }) })
+            };            
+            
+            lock.show(opts);
 JS;
     }
 }

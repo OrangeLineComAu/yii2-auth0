@@ -89,6 +89,11 @@ class Module extends \yii\base\Module
     public $signupUrl;
 
     /**
+     * @var string Text for signin button
+     */
+    public $signinText = 'Login';
+
+    /**
      * @inheritdoc
      */
     public function init()
