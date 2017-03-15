@@ -12,12 +12,18 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "auth0/auth0-php": "~1.0",
+        "auth0/auth0-php": "dev-1.0.8-custom",
         "adoy/oauth2": "dev-master",
         "firebase/php-jwt" : "v2.2.0",
         "anli/yii2-metronic": "*",
         "anli/yii2-helper": "*"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:OrangeLineComAu/auth0-PHP-1.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "anli\\auth0\\": ""
