@@ -113,7 +113,7 @@ class Auth0Lock extends Widget
                 , sso: true
                 , mode : "signin"
                 , gravatar : true
-                , dict: $.extend(lock.\$dicts.en, { signin: $.extend(lock.\$dicts.en.signin, { action: '$this->signinText' }) })
+                , dict: $.extend(lock.\$dicts.en, { signin: $.extend(lock.\$dicts.en.signin, { action: '$this->signinText', forgotText: 'Forgot password?' }) })
             };            
             
             lock.show(opts);
